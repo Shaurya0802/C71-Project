@@ -1,21 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
+import WriteStoryScreen from './screens/WriteStoryScreen';
+import ReadStoryScreen from './screens/ReadStoryScreen';
+import {createAppContainer} from 'react-navigation';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+export default class App extends React.Component{
+  render(){
+    return (
+      <AppContainer/>
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const TabNavigator = createBottomTabNavigator({
+  ReadScreen:{screen:ReadStoryScreen},
+  WriteScreen:{screen:WriteStoryScreen}
+},
+
+{defaultNavigationOptions : ({navigation})=>({
+  tabBarIcon : ()=>{
+    const routeName = navigation.state.routeName;
+
+    if(routeName === "ReadScreen"){
+      return(
+        <Image
+          style = {{width:40, height:40}}
+          source = {require("./assets/read.png")}
+        />
+      );
+    } else if(routeName === "WriteScreen"){
+      return(
+        <Image
+          style = {{width:40, height:40}}
+          source = {require("./assets/write.png")}
+        />
+      );
+    }
+  }
+})}
+);
+
+const AppContainer = createAppContainer(TabNavigator);
