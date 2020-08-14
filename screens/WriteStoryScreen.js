@@ -25,21 +25,11 @@ export default class WriteStoryScreen extends React.Component{
     }
 
     submitStory = async () => {
-        var value;
-        var value2;
-
         db.collection("writtenBookDetails").doc(this.state.docCode).update({
-            "authorName": value,
-            "storyTitle": value2,
-            "story": value3
+            "authorName": this.state.author,
+            "storyTitle": this.state.storyTitle,
+            "story": this.state.storyContent
         });
-
-        this.setState({
-            storyTitle: value2,
-            storyAuthor: value,
-            storyContent: value3,
-        });
-
     }
 
     render(){
@@ -56,6 +46,7 @@ export default class WriteStoryScreen extends React.Component{
                      <TextInput 
                         style={styles.inputBox} 
                         placeholder="Title of the story" 
+                        onchangeText={text => this.setState({storyTitle: text})}
                         value={this.state.storyTitle}
                     />  
                 </View>
@@ -64,6 +55,7 @@ export default class WriteStoryScreen extends React.Component{
                      <TextInput 
                         style={styles.inputBox} 
                         placeholder="Author of the story" 
+                        onChangeText={text2 => this.setState({storyTitle: text2})}
                         value={this.state.storyAuthor}
                     />   
                 </View>
@@ -73,6 +65,7 @@ export default class WriteStoryScreen extends React.Component{
                         style={styles.inputBox2} 
                         multiline numberOfLines={10} 
                         placeholder="Write Story" 
+                        onChangeText={text3 => this.setState({storyContent: text3})}
                         value={this.state.storyContent}
                     />
                 </View>
