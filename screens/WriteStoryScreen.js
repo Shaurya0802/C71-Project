@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, TextInput} from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, TextInput, KeyboardAvoidingView} from 'react-native';
 import { Header } from 'react-native-elements';
 import db from '../config';
 
@@ -18,67 +18,67 @@ export default class WriteStoryScreen extends React.Component{
         this.state={
             storyTitle: '',
             storyAuthor: '',
-            storyContent: '',
-            docCode: "2PRk27qHvZKanAmjsvvB"
+            storyContent: ''
         }
-        console.log(this.state.docCode);
     }
 
     submitStory = async () => {
-        db.collection("writtenBookDetails").doc(this.state.docCode).update({
-            "authorName": this.state.author,
-            "storyTitle": this.state.storyTitle,
+        db.collection("writtenBookDetails").doc("2PRk27qHvZKanAmjsvvB").update({
+            "authorName": this.state.storyAuthor,
+            "storyHeading": this.state.storyTitle,
             "story": this.state.storyContent
         });
     }
 
     render(){
         return(
-            <View style={styles.container}>
-                <Header
-                    centerComponent={{
-                        text: 'Story Hub',
-                        style: { color: '#000000', fontSize: 30, fontWeight: "bold" },
-                    }}
-                />
-
-                <View style={styles.inputView}>
-                     <TextInput 
-                        style={styles.inputBox} 
-                        placeholder="Title of the story" 
-                        onchangeText={text => this.setState({storyTitle: text})}
-                        value={this.state.storyTitle}
-                    />  
-                </View>
-
-                <View style={styles.inputView}>
-                     <TextInput 
-                        style={styles.inputBox} 
-                        placeholder="Author of the story" 
-                        onChangeText={text2 => this.setState({storyTitle: text2})}
-                        value={this.state.storyAuthor}
-                    />   
-                </View>
-
-                <View style={value3}>
-                    <TextInputBox  
-                        style={styles.inputBox2} 
-                        multiline numberOfLines={10} 
-                        placeholder="Write Story" 
-                        onChangeText={text3 => this.setState({storyContent: text3})}
-                        value={this.state.storyContent}
-                    />
-                </View>
-
+            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
                 <View style={styles.container}>
-                    <TouchableOpacity 
-                        style={styles.button}
-                        onPress={async () => {this.submitStory()}}
-                    >
-                        <Text style={styles.buttonText}>SUBMIT</Text>
-                    </TouchableOpacity>
+                    <Header
+                        centerComponent={{
+                            text: 'Story Hub',
+                            style: { color: '#000000', fontSize: 30, fontWeight: "bold"}
+                        }}
+                    />
+
+                    <View style={styles.inputView}>
+                        <TextInput 
+                            style={styles.inputBox} 
+                            placeholder="Title of the story" 
+                            onChangeText={text1 => this.setState({storyTitle: text1})}
+                            value={this.state.storyTitle}
+                        />  
+                    </View>
+
+                    <View style={styles.inputView}>
+                        <TextInput 
+                            style={styles.inputBox2} 
+                            placeholder="Author of the story" 
+                            onChangeText={text2 => this.setState({storyAuthor: text2})}
+                            value={this.state.storyAuthor}
+                        />   
+                    </View>
+
+                    <View style={styles.inputView}>
+                        <TextInputBox
+                            style={styles.inputBox3} 
+                            multiline numberOfLines={10} 
+                            placeholder="Write Story" 
+                            onChangeText={text3 => this.setState({storyContent: text3})}
+                            value={this.state.storyContent}
+                        />
+                    </View>
+
+                    <View style={styles.container}>
+                        <TouchableOpacity 
+                            style={styles.button}
+                            onPress={async () => {this.submitStory()}}
+                        >
+                            <Text style={styles.buttonText}>SUBMIT</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         );
     }
 }
@@ -94,17 +94,22 @@ const styles = StyleSheet.create({
         margin:20
     },
     inputBox:{
-        width:200,
+        width:280,
         height:40,
         borderWidth:1.5,
-        borderRightWidth:0,
-        fontSize:20
+        fontSize:20,
+        marginTop: 50
     },
     inputBox2:{
-        width:200,
+        width:280,
         height:40,
         borderWidth:1.5,
-        borderRightWidth:0,
+        fontSize:20
+    },
+    inputBox3:{
+        width:280,
+        height:200,
+        borderWidth:1.5,
         fontSize:20,
     },
     button:{
